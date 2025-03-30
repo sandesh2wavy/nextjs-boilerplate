@@ -15,16 +15,25 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>('light');
 
+  // Handle initial theme
+  useEffect(() => {
+    // Check if we're in the browser
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme') as Theme;
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+      setTheme(initialTheme);
+      
+      if (initialTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    }
+  }, []);
+
+  // Handle mounting
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
-      document.documentElement.classList.add('dark');
-    }
   }, []);
 
   const toggleTheme = () => {
@@ -34,8 +43,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('theme', newTheme);
   };
 
+  // Prevent hydration mismatch
   if (!mounted) {
-    return null;
+    return <div style={{ visibility: 'hidden' }}>{children}</div>;
   }
 
   return (
