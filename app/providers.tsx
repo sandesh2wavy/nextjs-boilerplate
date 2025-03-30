@@ -25,6 +25,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
       setTheme(initialTheme);
       
+      // Remove any existing dark class first
+      document.documentElement.classList.remove('dark');
+      
       if (initialTheme === 'dark') {
         document.documentElement.classList.add('dark');
       }
@@ -39,7 +42,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
-    document.documentElement.classList.toggle('dark');
+    
+    // Remove the class first to ensure clean state
+    document.documentElement.classList.remove('dark');
+    
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+    
     localStorage.setItem('theme', newTheme);
   };
 
