@@ -6,23 +6,38 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
-  // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
     setMounted(true);
+    const handleMouseMove = (e: MouseEvent) => {
+      setCursorPosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Show a blank page until mounted to prevent hydration mismatch
   if (!mounted) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-gray-600 dark:text-gray-400">Loading...</div>
+        <div className="animate-pulse text-text-muted">Loading...</div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen relative">
+      {/* CRT Monitor Effect */}
+      <div className="crt" />
+
+      {/* Cursor Glow Effect */}
+      <div 
+        className="cursor-glow"
+        style={{
+          transform: `translate(${cursorPosition.x - 10}px, ${cursorPosition.y - 10}px)`
+        }}
+      />
+
       {/* Theme Toggle */}
       <button
         onClick={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}
@@ -43,11 +58,11 @@ export default function Home() {
       {/* Main Content */}
       <main className="container mx-auto px-6 py-16">
         {/* Hero Section */}
-        <section className="text-center mb-24 animate-fade-in">
-          <div className="japanese-text absolute left-4 top-1/2 -translate-y-1/2 text-2xl text-accent">
+        <section className="text-center mb-24 animate-fade-in relative">
+          <div className="japanese-text absolute left-4 top-1/2 -translate-y-1/2 text-3xl text-accent film-burn">
             サンデシュ・バンダリ
           </div>
-          <h1 className="text-6xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+          <h1 className="text-7xl md:text-8xl font-bold text-foreground mb-6 leading-tight animate-glitch">
             Sandesh Bhandari
           </h1>
           <p className="text-xl md:text-2xl text-text-muted leading-relaxed max-w-2xl mx-auto">
@@ -57,17 +72,17 @@ export default function Home() {
 
         {/* Projects Grid */}
         <section className="grid-layout mb-24">
-          <div className="card animate-fade-in">
+          <div className="card animate-fade-in film-burn">
             <h2 className="text-2xl font-bold mb-4">Project 1</h2>
             <p className="text-text-muted mb-4">A beautiful web application inspired by Japanese aesthetics.</p>
             <button className="btn-japanese">View Project</button>
           </div>
-          <div className="card animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <div className="card animate-fade-in film-burn" style={{ animationDelay: '0.2s' }}>
             <h2 className="text-2xl font-bold mb-4">Project 2</h2>
             <p className="text-text-muted mb-4">Interactive storytelling with modern web technologies.</p>
             <button className="btn-japanese">View Project</button>
           </div>
-          <div className="card animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          <div className="card animate-fade-in film-burn" style={{ animationDelay: '0.4s' }}>
             <h2 className="text-2xl font-bold mb-4">Project 3</h2>
             <p className="text-text-muted mb-4">Minimalist design meets powerful functionality.</p>
             <button className="btn-japanese">View Project</button>
