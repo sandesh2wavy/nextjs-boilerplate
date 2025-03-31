@@ -2,31 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Montserrat:wght@400;500;600&display=swap');
+
 :root {
-  --foreground: #111827;
-  --background: #ffffff;
+  --foreground: #2C3E50;
+  --background: #F5F5F5;
+  --accent: #E67E22;
+  --text-muted: #7F8C8D;
+  --border: #BDC3C7;
+  --card-bg: #FFFFFF;
+  --shadow: rgba(0, 0, 0, 0.1);
 }
 
 .dark {
-  --foreground: #f3f4f6;
-  --background: #111827;
+  --foreground: #ECF0F1;
+  --background: #2C3E50;
+  --accent: #F39C12;
+  --text-muted: #BDC3C7;
+  --border: #34495E;
+  --card-bg: #34495E;
+  --shadow: rgba(0, 0, 0, 0.3);
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 /* Smooth transitions for all interactive elements */
 * {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+  transition-duration: 300ms;
 }
 
 /* Focus styles for better accessibility */
 *:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -40,30 +57,108 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: var(--border);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #666;
+  background: var(--text-muted);
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: #444;
+/* Japanese-inspired animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
 }
 
-/* Prevent theme flash */
-html.dark {
-  color-scheme: dark;
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
 }
 
-/* Ensure proper spacing */
+.animate-slide-in {
+  animation: slideIn 0.8s ease-out forwards;
+}
+
+/* Card styles */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px var(--shadow);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 12px var(--shadow);
+}
+
+/* Japanese-style button */
+.btn-japanese {
+  position: relative;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 500;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-japanese::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.btn-japanese:hover {
+  color: var(--background);
+}
+
+.btn-japanese:hover::before {
+  left: 0;
+}
+
+/* Container styles */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+}
+
+/* Grid layout */
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+/* Typography */
+.japanese-text {
+  font-family: 'Noto Sans JP', sans-serif;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.1em;
+}
+
+/* Parallax effect */
+.parallax {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
