@@ -1,61 +1,32 @@
-import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import { ThemeProvider } from "next-themes";
-import "./globals.css";
+import { ThemeProvider } from './providers'
+import './globals.css'
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 
-const geist = Geist({
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Sandesh Bhandari",
-  description: "Personal website of Sandesh Bhandari",
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
+  title: 'Sandesh Bhandari - Software Engineer & Web Developer',
+  description: 'Personal website of Sandesh Bhandari - Software Engineer & Web Developer',
   openGraph: {
-    title: 'Sandesh Bhandari',
-    description: 'Personal website of Sandesh Bhandari',
-    url: 'https://sandeshbhandari.com',
-    siteName: 'Sandesh Bhandari',
-    locale: 'en_US',
+    title: 'Sandesh Bhandari - Software Engineer & Web Developer',
+    description: 'Personal website of Sandesh Bhandari - Software Engineer & Web Developer',
     type: 'website',
   },
-};
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                }
-              } catch (_) {}
-            `,
-          }}
-        />
-      </head>
-      <body className={geist.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+      <body className={`${inter.className} bg-white dark:bg-gray-900 transition-colors duration-300`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
