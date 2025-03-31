@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --foreground: #171717;
+  --foreground: #111827;
   --background: #ffffff;
 }
 
 .dark {
-  --foreground: #ffffff;
+  --foreground: #f3f4f6;
   --background: #111827;
 }
 
@@ -21,4 +21,24 @@ body {
 /* Prevent theme flash */
 html.dark {
   color-scheme: dark;
+}
+
+/* Ensure proper spacing */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Better focus styles */
+*:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
